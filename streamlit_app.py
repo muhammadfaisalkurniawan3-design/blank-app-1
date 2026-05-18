@@ -2,52 +2,79 @@ import streamlit as st
 
 st.title("🎈 LPK SUKSES")
 import streamlit as st
-import random
 
-# Inisialisasi angka rahasia
-if "angka_rahasia" not in st.session_state:
-    st.session_state.angka_rahasia = random.randint(1, 100)
+st.set_page_config(page_title="Analisis Kadar Fe", layout="centered")
 
-if "jumlah_tebakan" not in st.session_state:
-    st.session_state.jumlah_tebakan = 0
+st.title("🧪 Penentuan Kadar Fe")
 
-st.title("🎮 Game Tebak Angka")
+st.write("Menghitung kadar Fe berdasarkan kurva kalibrasi")
 
-st.write("Saya memilih angka antara 1 sampai 100")
+# =========================
+# INPUT KURVA KALIBRASI
+# =========================
 
-# Input tebakan
-tebakan = st.number_input(
-    "Masukkan tebakan kamu:",
-    min_value=1,
-    max_value=100,
-    step=1
+st.subheader("Input Persamaan Kalibrasi")
+
+a = st.number_input(
+    "Nilai slope (a)",
+    value=0.1200,
+    format="%.4f"
 )
 
-# Tombol cek
-if st.button("Tebak"):
+b = st.number_input(
+    "Nilai intercept (b)",
+    value=0.0050,
+    format="%.4f"
+)
 
-    st.session_state.jumlah_tebakan += 1
+# =========================
+# INPUT ABSORBANSI
+# =========================
 
-    if tebakan < st.session_state.angka_rahasia:
-        st.warning("Terlalu kecil!")
+st.subheader("Input Data Sampel")
 
-    elif tebakan > st.session_state.angka_rahasia:
-        st.warning("Terlalu besar!")
+absorbansi = st.number_input(
+    "Absorbansi Sampel",
+    value=0.2500,
+    format="%.4f"
+)
+
+# =========================
+# INPUT BAKU MUTU
+# =========================
+
+st.subheader("Baku Mutu")
+
+baku_mutu = st.number_input(
+    "Baku Mutu Fe (mg/L)",
+    value=1.0,
+    format="%.3f"
+)
+
+# =========================
+# PERHITUNGAN
+# =========================
+
+if st.button("Hitung Kadar Fe"):
+
+    # Menghitung konsentrasi
+    # x = (y - b) / a
+
+    if a != 0:
+
+        kadar_fe = (absorbansi - b) / a
+
+        st.success(f"Kadar Fe = {kadar_fe:.4f} mg/L")
+
+        # =========================
+        # EVALUASI BAKU MUTU
+        # =========================
+
+        if kadar_fe <= baku_mutu:
+            st.info("✅ Memenuhi baku mutu")
+
+        else:
+            st.error("❌ Melebihi baku mutu")
 
     else:
-        st.success(
-            f"🎉 Benar! Angkanya adalah {st.session_state.angka_rahasia}"
-        )
-
-        st.info(
-            f"Kamu menebak dalam "
-            f"{st.session_state.jumlah_tebakan} percobaan"
-        )
-
-# Tombol reset
-if st.button("Main Lagi"):
-
-    st.session_state.angka_rahasia = random.randint(1, 100)
-    st.session_state.jumlah_tebakan = 0
-
-    st.rerun()
+        st.error("Slope tidak boleh 0")
