@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("🎈 JUAL ACA BELI LELE")
+st.title("🎈 LPK SUKSES")
 import streamlit as st
 
 # Judul aplikasi
