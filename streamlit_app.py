@@ -7,8 +7,8 @@ import streamlit as st
 st.title("Kalkulator Sederhana")
 
 # Input angka
-angka1 = st.number_input("Masukkan angka ", value=0.)
-angka2 = st.number_input("Masukkan angka ", value=0.)
+angka1 = st.number_input("Masukkan angka ", value=0.0)
+angka2 = st.number_input("Masukkan angka ", value=0.0)
 
 # Pilihan operasi
 operasi = st.selectbox(
