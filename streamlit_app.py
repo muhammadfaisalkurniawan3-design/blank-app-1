@@ -3,103 +3,35 @@ import streamlit as st
 st.title("🎈 LPK SUKSES")
 import streamlit as st
 
-st.set_page_config(
-    page_title="Analisis Vitamin C",
-    layout="centered"
+# Judul aplikasi
+st.title("Kalkulator Sederhana")
+
+# Input angka
+angka1 = st.number_input("Masukkan angka pertama", value=0.0)
+angka2 = st.number_input("Masukkan angka kedua", value=0.0)
+
+# Pilihan operasi
+operasi = st.selectbox(
+    "Pilih operasi",
+    ["Penjumlahan", "Pengurangan", "Perkalian", "Pembagian"]
 )
 
-st.title("🍊 Penentuan Kadar Vitamin C")
+# Tombol hitung
+if st.button("Hitung"):
 
-st.write(
-    "Menghitung kadar Vitamin C dalam sampel minuman "
-    "menggunakan kurva kalibrasi"
-)
+    if operasi == "Penjumlahan":
+        hasil = angka1 + angka2
 
-# =====================================
-# INPUT KURVA KALIBRASI
-# =====================================
+    elif operasi == "Pengurangan":
+        hasil = angka1 - angka2
 
-st.header("1. Persamaan Kalibrasi")
+    elif operasi == "Perkalian":
+        hasil = angka1 * angka2
 
-a = st.number_input(
-    "Slope (a)",
-    value=0.0850,
-    format="%.4f"
-)
-
-b = st.number_input(
-    "Intercept (b)",
-    value=0.0020,
-    format="%.4f"
-)
-
-# =====================================
-# INPUT ABSORBANSI
-# =====================================
-
-st.header("2. Data Sampel")
-
-absorbansi = st.number_input(
-    "Absorbansi Sampel",
-    value=0.3500,
-    format="%.4f"
-)
-
-# =====================================
-# FAKTOR PENGENCERAN
-# =====================================
-
-st.header("3. Faktor Pengenceran")
-
-fp = st.number_input(
-    "Faktor Pengenceran",
-    value=1.0,
-    format="%.2f"
-)
-
-# =====================================
-# STANDAR / LABEL PRODUK
-# =====================================
-
-st.header("4. Standar Vitamin C")
-
-standar = st.number_input(
-    "Kadar pada label (mg/L)",
-    value=40.0,
-    format="%.2f"
-)
-
-# =====================================
-# PERHITUNGAN
-# =====================================
-
-if st.button("Hitung Kadar Vitamin C"):
-
-    if a != 0:
-
-        # Hitung konsentrasi
-        konsentrasi = ((absorbansi - b) / a) * fp
-
-        st.success(
-            f"Kadar Vitamin C = {konsentrasi:.2f} mg/L"
-        )
-
-        # =====================================
-        # PERBANDINGAN DENGAN LABEL
-        # =====================================
-
-        selisih = konsentrasi - standar
-
-        st.subheader("Perbandingan dengan Label")
-
-        st.write(f"Standar/Label : {standar:.2f} mg/L")
-        st.write(f"Hasil Analisis : {konsentrasi:.2f} mg/L")
-        st.write(f"Selisih : {selisih:.2f} mg/L")
-
-        if konsentrasi >= standar:
-            st.info("✅ Sesuai / di atas standar")
+    elif operasi == "Pembagian":
+        if angka2 != 0:
+            hasil = angka1 / angka2
         else:
-            st.warning("⚠️ Di bawah standar")
+            hasil = "Error! Tidak bisa dibagi 0"
 
-    else:
-        st.error("Slope tidak boleh nol")
+    st.success(f"Hasil: {hasil}")
