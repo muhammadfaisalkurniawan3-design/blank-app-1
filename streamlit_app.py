@@ -2,36 +2,52 @@ import streamlit as st
 
 st.title("🎈 LPK SUKSES")
 import streamlit as st
+import random
 
-# Judul aplikasi
-st.title("Kalkulator Sederhana")
+# Inisialisasi angka rahasia
+if "angka_rahasia" not in st.session_state:
+    st.session_state.angka_rahasia = random.randint(1, 100)
 
-# Input angka
-angka1 = st.number_input("Masukkan angka pertama", value=0.0)
-angka2 = st.number_input("Masukkan angka kedua", value=0.0)
+if "jumlah_tebakan" not in st.session_state:
+    st.session_state.jumlah_tebakan = 0
 
-# Pilihan operasi
-operasi = st.selectbox(
-    "Pilih operasi",
-    ["Penjumlahan", "Pengurangan", "Perkalian", "Pembagian"]
+st.title("🎮 Game Tebak Angka")
+
+st.write("Saya memilih angka antara 1 sampai 100")
+
+# Input tebakan
+tebakan = st.number_input(
+    "Masukkan tebakan kamu:",
+    min_value=1,
+    max_value=100,
+    step=1
 )
 
-# Tombol hitung
-if st.button("Hitung"):
+# Tombol cek
+if st.button("Tebak"):
 
-    if operasi == "Penjumlahan":
-        hasil = angka1 + angka2
+    st.session_state.jumlah_tebakan += 1
 
-    elif operasi == "Pengurangan":
-        hasil = angka1 - angka2
+    if tebakan < st.session_state.angka_rahasia:
+        st.warning("Terlalu kecil!")
 
-    elif operasi == "Perkalian":
-        hasil = angka1 * angka2
+    elif tebakan > st.session_state.angka_rahasia:
+        st.warning("Terlalu besar!")
 
-    elif operasi == "Pembagian":
-        if angka2 != 0:
-            hasil = angka1 / angka2
-        else:
-            hasil = "Error! Tidak bisa dibagi 0"
+    else:
+        st.success(
+            f"🎉 Benar! Angkanya adalah {st.session_state.angka_rahasia}"
+        )
 
-    st.success(f"Hasil: {hasil}")
+        st.info(
+            f"Kamu menebak dalam "
+            f"{st.session_state.jumlah_tebakan} percobaan"
+        )
+
+# Tombol reset
+if st.button("Main Lagi"):
+
+    st.session_state.angka_rahasia = random.randint(1, 100)
+    st.session_state.jumlah_tebakan = 0
+
+    st.rerun()
