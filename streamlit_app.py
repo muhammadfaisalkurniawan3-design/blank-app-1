@@ -7,3 +7,6 @@ st.write(
 st.write(
     "2KILO 50K"
 )
+st.write(
+    "HUBUNGI ACA LELE:088492623"
+)
