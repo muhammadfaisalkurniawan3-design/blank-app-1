@@ -2,5 +2,6 @@ import streamlit as st
 
 st.title("🎈 JUAL ACA BELI LELE")
 st.write(
-    "ACA RAJA TANAH BARU"
+    "1KILO 15K"
+    "2KILO 35K"
 )
